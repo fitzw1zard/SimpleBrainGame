@@ -33,58 +33,14 @@ class GameFinishedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setClickListeners()
-        bindView()
-
-    }
-
-    private fun bindView() {
-
         with(binding) {
-            emojiResult.setImageResource(getSmileResId())
-            with(args.gameResult) {
-                tvRequiredAnswers.text = String.format(
-                    getString(R.string.required_score),
-                    gameSettings.minCountOfRightAnswers.toString()
-                )
-                tvScoreAnswers.text = String.format(
-                    getString(R.string.score_answers),
-                    countOfRightAnswers.toString()
-                )
-                tvRequiredPercentage.text = String.format(
-                    getString(R.string.required_percentage),
-                    gameSettings.minPercentOfRightAnswers.toString()
-                )
-                tvScorePercentage.text = String.format(
-                    getString(R.string.score_percentage),
-                    percentOfRightAnswers.toString()
-                )
-
-            }
-        }
-
-    }
-
-    private fun getSmileResId(): Int {
-        return if (args.gameResult.winner) {
-            R.drawable.ic_smile
-        } else {
-            R.drawable.ic_sad
+            buttonRetry.setOnClickListener { findNavController().popBackStack() }
+            gameResult = args.gameResult
         }
     }
-
-    private fun setClickListeners() {
-        binding.buttonRetry.setOnClickListener { retryGame() }
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    private fun retryGame() {
-       findNavController().popBackStack()
-    }
-
 }
